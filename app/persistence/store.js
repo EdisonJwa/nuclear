@@ -6,22 +6,21 @@ import { restartApi, stopApi } from '../mpris';
 
 const store = new electronStore();
 
-function setIfUnset (storeKey) {
-  const args = [...arguments];
-  args.shift();
-  if (!store.get(storeKey)) {
-    store.set(storeKey, ...args);
+function setIfUnset(key, value) {
+  if (!store.get(key)) {
+    store.set(key, value);
   }
 }
 
-function initStore () {
-  setIfUnset('lastFm');
-  setIfUnset('settings');
+function initStore() {
+  setIfUnset('lastFm', {});
+  setIfUnset('settings', {});
+  setIfUnset('localMeta', {});
 
   setIfUnset('localFolders', []);
   setIfUnset('playLists', []);
 
-  setIfUnset( 'favorites', {
+  setIfUnset('favorites', {
     tracks: [],
     artists: [],
     albums: []
@@ -69,7 +68,7 @@ function initStore () {
 // Should be called in startup process
 initStore();
 
-function getOption (key) {
+function getOption(key) {
   const settings = store.get('settings') || {};
   let value = settings[key];
 
@@ -84,7 +83,7 @@ function isValidPort(value) {
   return typeof value === 'number' && value > 1024 && value < 49151;
 }
 
-function setOption (key, value) {
+function setOption(key, value) {
   const settings = store.get('settings') || {};
 
   store.set('settings', Object.assign({}, settings, { [`${key}`]: value }));
@@ -98,6 +97,5 @@ function setOption (key, value) {
     stopApi();
   }
 }
-
 
 export { store, getOption, setOption };
