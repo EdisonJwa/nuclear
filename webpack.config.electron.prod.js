@@ -1,11 +1,10 @@
 /* eslint-env node */
-const HappyPack = require('happypack');
 
 module.exports = env => {
   let entry = env && env.LINUX ? './server/main.prod.linux.js' : './server/main.prod.js';
 
   return {
-    entry: entry,
+    entry,
     output: {
       path: __dirname,
       filename: './dist/bundle.electron.js'
@@ -21,16 +20,14 @@ module.exports = env => {
       rules: [
         {
           test: /.jsx?$/,
-          use: 'happypack/loader?id=jsx'
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true
+          }
         }
       ]
     },
-    plugins: [
-      new HappyPack({
-        id: 'jsx',
-        loaders: ['babel-loader']
-      })
-    ],
+    plugins: [],
     externals: {
       dbus: 'dbus'
     },

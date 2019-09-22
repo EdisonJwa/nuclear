@@ -31,13 +31,13 @@ class PopularTracks extends React.Component {
         key='add-all-tracks-to-queue'
         href='#'
         onClick={() => {
-          tracks.track
+          _.get(tracks, 'track', [])
             .slice(0, this.state.expanded ? 15 : 5)
             .map(track => {
               this.props.addToQueue(this.props.musicSources, {
                 artist: artist.name,
                 name: track.name,
-                thumbnail: track.image[0]['#text'] || artPlaceholder
+                thumbnail: track.thumbnail || track.image[0]['#text'] || artPlaceholder
               });
             });
         }}
@@ -70,7 +70,8 @@ class PopularTracks extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {tracks.track
+            {
+              _.get(tracks, 'track', [])
               .slice(0, this.state.expanded ? 15 : 5)
               .map((track, index) => {
                 return (
@@ -83,7 +84,8 @@ class PopularTracks extends React.Component {
                     displayPlayCount
                   />
                 );
-              })}
+              })
+            }
           </tbody>
         </table>
         <div className='expand_button' onClick={this.toggleExpand.bind(this)}>

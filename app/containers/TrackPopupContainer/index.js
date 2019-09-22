@@ -9,6 +9,7 @@ import * as FavoritesActions from '../../actions/favorites';
 import * as PlayerActions from '../../actions/player';
 import * as QueueActions from '../../actions/queue';
 import * as ToastActions from '../../actions/toasts';
+import { safeAddUuid } from '../../actions/helpers';
 
 import ContextPopup from '../../components/ContextPopup';
 import PopupButton from '../../components/ContextPopup/PopupButton';
@@ -29,7 +30,13 @@ const TrackPopupContainer = props => {
     withAddToFavorites,
     withAddToDownloads
   } = props;
-  
+
+  const trackItem = {
+    artist,
+    name: title,
+    thumbnail: props.thumb
+  };
+
   return (
     <ContextPopup
       trigger={trigger}
@@ -40,15 +47,7 @@ const TrackPopupContainer = props => {
       {
         withAddToQueue &&
           <PopupButton
-            onClick={() => {
-              actions.addToQueue(
-                musicSources,
-                {
-                  artist: props.artist,
-                  name: props.title,
-                  thumbnail: props.thumb
-                });
-            }}
+            onClick={ () => actions.addToQueue(musicSources, trackItem)}
             ariaLabel='Add track to queue'
             icon='plus'
             label='Add to queue'
@@ -58,18 +57,7 @@ const TrackPopupContainer = props => {
       {
         withPlayNow &&
         <PopupButton
-          onClick={() => {
-            actions.clearQueue();
-            actions.addToQueue(
-              musicSources,
-              {
-                artist: props.artist,
-                name: props.title,
-                thumbnail: props.thumb
-              });
-            actions.selectSong(0);
-            actions.startPlayback();
-          }}
+          onClick={ () => actions.playTrack(musicSources, trackItem) }
           ariaLabel='Play this track now'
           icon='play'
           label='Play now'
@@ -98,8 +86,9 @@ const TrackPopupContainer = props => {
         withAddToDownloads &&
         <PopupButton
           onClick={() => {
-            ipcRenderer.send('start-download', track);
-            actions.addToDownloads(musicSources, track);
+            const clonedTrack = safeAddUuid(track);
+            ipcRenderer.send('start-download', clonedTrack);
+            actions.addToDownloads(musicSources, clonedTrack);
             actions.info(
               'Track added to downloads',
               `${artist} - ${title} has been added to downloads.`,
@@ -112,7 +101,7 @@ const TrackPopupContainer = props => {
           label='Download'
         />
       }
-    
+
     </ContextPopup>
   );
 };
@@ -148,7 +137,7 @@ TrackPopupContainer.defaultProps = {
   actions: {},
   musicSources: [],
   settings: {},
-  
+
   withAddToQueue: true,
   withPlayNow: true,
   withAddToFavorites: true,

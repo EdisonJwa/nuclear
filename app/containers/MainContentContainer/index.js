@@ -9,18 +9,17 @@ import MainLayout from '../../components/MainLayout';
 import AlbumViewContainer from '../AlbumViewContainer';
 import ArtistViewContainer from '../ArtistViewContainer';
 import DashboardContainer from '../DashboardContainer';
+import DownloadsContainer from '../DownloadsContainer';
+import EqualizerViewContainer from '../EqualizerViewContainer';
 import FavoritesContainer from '../FavoritesContainer';
+import LibraryViewContainer from '../LibraryViewContainer';
 import LyricsContainer from '../LyricsContainer';
-import PlaylistsContainer from '../PlaylistsContainer';
 import PlaylistViewContainer from '../PlaylistViewContainer';
+import PlaylistsContainer from '../PlaylistsContainer';
 import PluginsContainer from '../PluginsContainer';
 import SearchResultsContainer from '../SearchResultsContainer';
 import SettingsContainer from '../SettingsContainer';
 import TagViewContainer from '../TagViewContainer';
-import EqualizerViewContainer from '../EqualizerViewContainer';
-import LibraryViewContainer from '../LibraryViewContainer';
-
-import DownloadsContainer from '../../containers/DownloadsContainer';
 
 class MainContentContainer extends React.Component {
   componentDidMount () {
@@ -41,6 +40,7 @@ class MainContentContainer extends React.Component {
               <Route path='/artist/:artistId' component={ArtistViewContainer} />
               <Route path='/dashboard' component={DashboardContainer} />
               <Route path='/downloads' component={DownloadsContainer} />
+              <Route path='/favorites/albums' component={FavoritesContainer} />
               <Route path='/favorites/tracks' component={FavoritesContainer} />
               <Route path='/playlists' component={PlaylistsContainer} />
               <Route path='/playlist/:playlistId' component={PlaylistViewContainer} />

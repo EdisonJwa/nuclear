@@ -76,15 +76,12 @@
 .track_thumbnail {
   position: relative;
   box-sizing: content-box;
-  height: 3em;
-  width: 3em;
   padding: 0 !important;
 
   img {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    height: 100%;
+    width: 3em;
+    height: 3em;
+    display: block;
   }
 }
 

@@ -1,4 +1,5 @@
 import express from 'express';
+import logger from 'electron-timber';
 import { ipcMain } from 'electron';
 import { Validator } from 'express-json-validator-middleware';
 import _ from 'lodash';
@@ -43,12 +44,12 @@ export function localFileRouter() {
     try {
       cache = await scanFoldersAndGetMeta(store.get('localFolders'), cache);
 
-      setOption('localMeta', cache);
+      store.set('localMeta', cache);
       byArtist = _.groupBy(Object.values(cache), track => track.artist.name);
 
       event.sender.send('local-files', cache);
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       event.sender.send('local-files-error', err);
     }
   });
@@ -85,7 +86,7 @@ export function localFileRouter() {
             duration: track.duration,
             source: 'Local',
             stream: `http://127.0.0.1:${port}/nuclear/file/${track.uuid}`,
-            thumbnail: track.image ? track.image[0]['#text'] : undefined
+            thumbnail: track.thumbnail || track.image && track.image[0] ? track.image[0]['#text'] : undefined
           }))
           .pop()
       );

@@ -122,19 +122,28 @@ export default [
     prettyName: 'language',
     placeholder: 'language-placeholder',
     options: [
-      {key: 'en', text: 'English', value: 'en'},
-      {key: 'fr', text: 'French', value: 'fr'},
-      {key: 'nl', text: 'Dutch', value: 'nl'},
-      {key: 'de', text: 'German', value: 'de'},
-      {key: 'dk', text: 'Danish', value: 'dk'},
-      {key: 'es', text: 'Spanish', value: 'es'},
-      {key: 'pl', text: 'Polish', value: 'pl'},
-      {key: 'zh', text: 'Chinese', value: 'zh'},
-      {key: 'ru', text: 'Russian', value: 'ru'},
-      {key: 'pt_br', text: 'Português do Brasil', value: 'pt_br'},
-      {key: 'tr', text: 'Turkish', value: 'tr'}
+      { key: 'de', text: 'Deutsch', value: 'de' },
+      { key: 'dk', text: 'Dansk', value: 'dk' },
+      { key: 'en', text: 'English', value: 'en' },
+      { key: 'es', text: 'Español', value: 'es' },
+      { key: 'fr', text: 'Français', value: 'fr' },
+      { key: 'it', text: 'Italiano', value: 'it' },
+      { key: 'nl', text: 'Nederlands', value: 'nl' },
+      { key: 'pl', text: 'Polski', value: 'pl' },
+      { key: 'pt_br', text: 'Português (Brasil)', value: 'pt_br' },
+      { key: 'ru', text: 'Русский', value: 'ru' },
+      { key: 'tr', text: 'Türkçe', value: 'tr' },
+      { key: 'zh', text: '中文', value: 'zh' },
+      { key: 'id', text: 'Bahasa Indonesia', value: 'id' }
     ],
     default: undefined
+  }, {
+    name: 'downloads.dir',
+    category: 'downloads',
+    type: settingType.DIRECTORY,
+    prettyName: 'downloads-dir',
+    buttonText: 'downloads-dir-button',
+    buttonIcon: 'folder open'
   }
 
   // TODO: Enable when MPD integration is ready

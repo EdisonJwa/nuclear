@@ -49,11 +49,13 @@ Nuclear has already been translated to several languages, and we're always looki
 | French               | [charjac](https://github.com/charjac)                                                                |
 | Dutch                | [Vistaus](https://github.com/Vistaus)                                                                |
 | Danish               | [Hansen1992](https://github.com/Hansen1992)                                                          |
-| Spanish              | [mlucas94](https://github.com/mlucas94)                                                              |
+| Spanish              | [mlucas94](https://github.com/mlucas94), [emlautarom1](https://github.com/emlautarom1)                                                             |
 | Polish               | [kazimierczak-robert](https://github.com/kazimierczak-robert), [gradzka](https://github.com/gradzka) |
 | German               | [schippas](https://github.com/schippas)                                                              |
 | Russian              | [ramstore07](https://github.com/ramstore07), [dmtrshat](https://github.com/dmtrshat)                 |
 | Brazilian Portuguese | [JoaoPedroMoraes](https://github.com/JoaoPedroMoraes)                                                |
+| Turkish              | [3DShark](https://github.com/3DShark)                                                                |
+| Italian              | [gello94](https://github.com/gello94)                                                                |
 
 ## Manual and docs
 https://nuclearmusic.rtfd.io/
@@ -72,41 +74,32 @@ We do not control these and cannot be held responsible for their contents, but i
 ## Screenshots
 This will be updated as the program evolves.
 
-![laptop mockup 1](https://i.imgur.com/31Tc5qf.jpg)
+![Album Search](https://i.imgur.com/idFVnAF.png)
 
-![laptop mockup 2](https://i.imgur.com/HqMP5HF.jpg)
+![Album Display](https://i.imgur.com/Kvzo3q7.png)
 
-![album search](https://i.imgur.com/tLSv6pw.png)
+![Artist View](https://i.imgur.com/imBLYl3.png)
 
-![album display](https://i.imgur.com/hAEXUaQ.png)
+![Dashboard Best New Music](https://i.imgur.com/bMDrR4M.png)
 
-![artist view](https://i.imgur.com/DCrlVqt.png)
+![Dashboard Genres](https://i.imgur.com/g0aCmKx.png)
 
-![dashboard](https://i.imgur.com/tewcTEu.png)
+![Playlist View](https://i.imgur.com/2VMXHDC.png)
 
-![playlist view](https://i.imgur.com/YM3eP3i.png)
+![Lyrics View](https://i.imgur.com/7e3DJKJ.png)
 
-![genre view](https://i.imgur.com/KrzUvwp.png)
+![Equalizer View](https://i.imgur.com/WreRL0w.png)
 
-## Dev build process
-As all Electron applications, Nuclear has two parts: the server and the web app.
+## Development process
+You will need docker and docker-compose.
+As all Electron applications, Nuclear has two parts: the server and the web app. Both are containerized. You need to allow the root user to connect to X11 display, and then you can run docker-compose:
 
-Before you begin, make sure you're using the latest version of Node and NPM. 
-To run the web app part in development mode locally, you should only do:
-```bash
-$ npm install
-$ npm run watch
+```shell
+$ xhost SI:localuser:root
+$ sudo docker-compose up dev
 ```
 
-This launches webpack. It watches local files for changes and rebuilds the project as needed. The project also has hot reload built in. 
-
-To launch the server, you need to run this in another terminal window:
-```bash
-$ npm run electron:dev
-```
-This launches a development version of the program. Tmux is very useful here so you can keep an eye on all running processes.
-
-A new window should open that will load the web app part and run Nuclear.
+A new window should open that will load the web app and run Nuclear.
 
 ---
 To run production version:

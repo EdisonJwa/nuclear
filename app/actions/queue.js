@@ -1,5 +1,7 @@
 const _ = require('lodash');
-const uuidv4 = require('uuid/v4');
+
+import { safeAddUuid } from './helpers';
+import { startPlayback } from './player.js';
 
 export const ADD_TO_QUEUE = 'ADD_TO_QUEUE';
 export const REMOVE_FROM_QUEUE = 'REMOVE_FROM_QUEUE';
@@ -14,7 +16,8 @@ export const SWAP_SONGS = 'SWAP_SONGS';
 function addTrackToQueue (musicSources, item) {
   return dispatch => {
     item.loading = true;
-    item.uuid = uuidv4();
+    item = safeAddUuid(item);
+    
     dispatch({
       type: ADD_TO_QUEUE,
       payload: item
@@ -28,6 +31,15 @@ function addTrackToQueue (musicSources, item) {
           payload: Object.assign({}, item, { streams: results, loading: false })
         });
       });
+  };
+}
+
+export function playTrack (musicSources, item) {
+  return dispatch => {
+    dispatch(clearQueue());
+    dispatch(addToQueue(musicSources, item));
+    dispatch(selectSong(0));
+    dispatch(startPlayback());
   };
 }
 

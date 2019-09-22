@@ -1,37 +1,29 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import _ from 'lodash';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 import numeral from 'numeral';
 import { Icon } from 'semantic-ui-react';
 
-import artPlaceholder from '../../../resources/media/art_placeholder.png';
+import * as QueueActions from '../../actions/queue';
 
 import TrackPopupContainer from '../../containers/TrackPopupContainer';
 import { formatDuration } from '../../utils';
 
 import styles from './styles.scss';
 
-class TrackRow extends React.Component {
-  getThumbnail(track) {
-    return _.get(
-      track,
-      'image[1][\'#text\']',
-      _.get(
-        track,
-        'image[0][\'#text\']',
-        artPlaceholder
-      )
-    );
-  }
 
-  renderAlbum(track) {
+class TrackRow extends React.Component {  
+  // this function should be moved onto interface for 'track'
+  renderAlbum (track) {
     return (
       <td className={styles.track_album}>
         { track.album }
       </td>
     );
   }
-  
+
   renderDuration (track) {
     if (track.duration === 0) {
       return <td className={styles.track_duration} />;
@@ -41,6 +33,28 @@ class TrackRow extends React.Component {
         {formatDuration(track.duration)}
       </td>
     );
+  }
+
+  playTrack () {
+    this.props.actions.playTrack(this.props.musicSources, {
+      artist: this.props.track.artist.name,
+      name: this.props.track.name,
+      thumbnail: this.getTrackThumbnail()
+    });
+  }
+
+  getTrackThumbnail() {
+    return _.get(
+      this.props.track,
+      'thumbnail',
+      _.get(this.props.track, 'image[0][#text]')
+    );
+  }
+  
+  canAddToFavorites() {
+    return _.findIndex(this.props.favoriteTracks, (currentTrack) => { 
+      return _.isMatch(currentTrack, this.props.track);
+    }) < 0;
   }
 
   renderTrigger (track) {
@@ -54,9 +68,9 @@ class TrackRow extends React.Component {
       withDeleteButton,
       onDelete
     } = this.props;
-    
+
     return (
-      <tr className={styles.track} onDoubleClick={this.playTrack}>
+      <tr className={styles.track} onDoubleClick={this.playTrack.bind(this)}>
         {
           withDeleteButton &&
             <td className={styles.track_row_buttons}>
@@ -68,7 +82,7 @@ class TrackRow extends React.Component {
         {
           displayCover &&
             <td className={styles.track_thumbnail}>
-              <img src={this.getThumbnail(track)}/>
+              <img src={this.getTrackThumbnail()}/>
             </td>
         }
         { displayTrackNumber && <td className={styles.track_number}>{track.position}</td> }
@@ -82,6 +96,7 @@ class TrackRow extends React.Component {
   }
 
   render () {
+    
     let {
       track,
       withAddToQueue,
@@ -89,18 +104,17 @@ class TrackRow extends React.Component {
       withAddToFavorites,
       withAddToDownloads
     } = this.props;
-    
     return (
       <TrackPopupContainer
         trigger={this.renderTrigger(track)}
         track={track}
         artist={track.artist.name}
         title={track.name}
-        thumb={this.getThumbnail(track)}
+        thumb={this.getTrackThumbnail()}
 
         withAddToQueue={withAddToQueue}
         withPlayNow={withPlayNow}
-        withAddToFavorites={withAddToFavorites}
+        withAddToFavorites={this.canAddToFavorites()}
         withAddToDownloads={withAddToDownloads}
       />
     );
@@ -116,7 +130,7 @@ TrackRow.propTypes = {
   displayAlbum: PropTypes.bool,
   displayDuration: PropTypes.bool,
   displayPlayCount: PropTypes.bool,
-  
+
   withAddToQueue: PropTypes.bool,
   withPlayNow: PropTypes.bool,
   withAddToFavorites: PropTypes.bool,
@@ -134,4 +148,28 @@ TrackRow.defaultProps = {
   withDeleteButton: false
 };
 
-export default TrackRow;
+function mapStateToProps (state, { track }) {
+  return {
+    musicSources: track.local
+      ? state.plugin.plugins.musicSources.filter(({ sourceName }) => {
+        return sourceName === 'Local';
+      })
+      : state.plugin.plugins.musicSources,
+    settings: state.settings,
+    favoriteTracks: state.favorites.tracks
+  };
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    actions: bindActionCreators(
+      Object.assign({}, QueueActions),
+      dispatch
+    )
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TrackRow);

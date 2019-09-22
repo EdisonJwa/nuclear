@@ -1,13 +1,17 @@
 {
   "album": {
-    "queue": "Add album to queue"
+    "queue": "Add album to queue",
+    "download": "Download",
+    "download-toast-title": "Album added to downloads",
+    "download-toast-content": "{{artist}} - {{title}} has been added to downloads."
   },
   "app": {
     "collection": "Collection",
     "dashboard": "Dashboard",
     "downloads": "Downloads",
     "equalizer": "Equalizer",
-    "favorite": "Favorite Tracks",
+    "favorite-albums": "Favorite Albums",
+    "favorite-tracks": "Favorite Tracks",
     "library": "Local Library",
     "lyrics": "Lyrics",
     "main": "Main",
@@ -46,10 +50,15 @@
   },
   "favorites": {
     "artist": "Artist",
-    "empty": "No favorites added.",
+    "empty": "No favorites added",
     "empty-help": "Try favoriting some tracks and they will appear here!",
     "header": "Your favorite tracks",
     "title": "Title"
+  },
+  "favorite-albums": {
+    "header": "Your favorite albums",
+    "empty": "No favorite albums",
+    "empty-help": "Try adding some albums to favorites and they will appear here!"
   },
   "help": {
     "about": "About Nuclear Music Player",
@@ -69,9 +78,9 @@
     "title": "Title",
     "empty": "The library is empty",
     "empty-help": "Try adding some music using the button above.",
-    "no-api": "Web Api is not enabled :(",
+    "no-api": "Web API is not enabled",
     "no-api-help": "In order to use the local library you need to enable the web api.",
-    "api-enable": "enable the api."
+    "api-enable": "Enable the API"
   },
   "lyrics": {
     "by-artist": "by {{artist}}",
@@ -111,7 +120,7 @@
     "dialog-trigger": "Save as playlist",
     "download": "Download",
     "download-toast-content": "{{artist}} - {{title}} has been added to downloads.",
-    "download-toast-title": "Track added to download",
+    "download-toast-title": "Track added to downloads",
     "favorite-add": "Add to favorites",
     "header": "Queue",
     "header-track": "Current track",
@@ -173,7 +182,10 @@
     "social": "Social",
     "user": "User:",
     "youtube": "Youtube",
-    "yt-api-key": "Youtube API Key"
+    "yt-api-key": "Youtube API Key",
+    "downloads": "Downloads",
+    "downloads-dir": "Downloads directory",
+    "downloads-dir-button": "Choose a directory..."
   },
   "tags": {
     "albums": "Top Albums",

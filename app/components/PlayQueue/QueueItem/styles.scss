@@ -1,10 +1,21 @@
 @import '../../../vars';
 
+@keyframes appear {
+  0% {
+      opacity: 0;
+  }
+
+  100% {
+      opacity: 0.25;
+  }
+}
+
 .queue_item_container {
   display: flex;
-  transition: all $medium-duration ease-out;
 
   margin: 0.5rem;
+  margin-top: 0;
+  padding: 0.5rem 0.25rem 0.5rem 0.5rem;
 
   border-radius: 2px;
   background-color: rgba($background2, 0.5);
@@ -12,7 +23,9 @@
   flex: 0 0 auto;
   flex-flow: row;
 
-  height: 60px;
+  animation-name: appear;
+  animation-duration: $short-duration;
+
 
   span {
     display: flex;
@@ -32,12 +45,18 @@
   }
 }
 
+.queue_item_container_loading {
+  .item_info_container, .item_duration_container {
+    opacity: 0.3;
+  }
+}
+
 .thumbnail_container {
   position: relative;
   display: flex;
   width: 48px;
   height: 48px;
-  margin: 6px;
+  margin-right: 0.5rem;
 
   flex: 0 0 auto;
   align-items: center;
@@ -85,8 +104,6 @@
 .name_container {
   overflow: hidden;
 
-  margin-bottom: 6px;
-
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -103,6 +120,7 @@
 .item_duration_container {
   display: flex;
   overflow: hidden;
+  font-size: 0.85em;
 
   flex: 0 0 auto;
   flex-flow: column;
